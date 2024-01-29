@@ -57,21 +57,27 @@ def get_promos():
             start_date_iso = (promotion_data['startDate'][:-1])
             # Remove the last "Z" character so Python's datetime can parse it.
             start_date = datetime.fromisoformat(start_date_iso)
-            fut.append(start_date.weekday())
-            fut.append(start_date.replace(tzinfo=timezone.utc).astimezone(tz=None).time().strftime("%I:%M:%S"))
-            # print(f'* {game_title} ({game_price}) will be free from {start_date} UTC \n {game_url}')
-            #fut.append(f'* {game_title} ({game_price}) will be free from {start_date} UTC \n {game_url}')
+            fut.append(start_date.replace(tzinfo=timezone.utc).astimezone(tz=None).replace(tzinfo=None))
+            
     promos["current"] = cur
     promos["future"] = fut
     return promos
 
+def no_promo():
+    return (datetime.now().astimezone(tz=None).replace(tzinfo=None).replace(microsecond=0) + timedelta(days=7))
+
 def test():
-    curtime = datetime.now() + timedelta(seconds=10)
-    scheduled_datetime = curtime.strftime("%H:%M:%S") 
-    tday = datetime.today().weekday()
-    fut = [tday, scheduled_datetime]
+    curtime = datetime.now().astimezone(tz=None).replace(tzinfo=None).replace(microsecond=0) + timedelta(days=7)
+    print(curtime)
+    #scheduled_datetime = curtime.astimezone(tz=None).replace(microsecond=0)
+    #print(scheduled_datetime)
+    fut = [curtime]
     cur = []
     promos = {}
     promos["current"] = cur
     promos["future"] = fut
+    print(promos)
     return promos
+
+# if __name__ == "__main__":
+#     test()
