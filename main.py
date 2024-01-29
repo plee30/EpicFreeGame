@@ -37,7 +37,8 @@ async def add_future_task(future_promo_datetime):
     scheduler.add_job(check_schedule, 'date', run_date=future_promo_datetime)
     
 async def freegames_auto(cur):
-    channel = bot.get_channel(1060707957328859186)
+    # TODO Change from hard-implementation of channel ID to database of channels to send to
+    channel = bot.get_channel()
     embed = discord.Embed(
         title = "Free Game",
         description = cur[0],
