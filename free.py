@@ -50,6 +50,7 @@ def get_promos():
             formatted_pst_time = pst_time.strftime("%Y-%m-%d %I:%M %p")
             cur.append(f'{game_title} ({game_price}) is FREE until {formatted_pst_time} \n {game_url}')
             cur.append(game_thumbnail)
+            cur.append(game_title)
             
         if not game_promotions and upcoming_promotions:
             # Promotion is not active yet, but will be active soon.
@@ -65,19 +66,3 @@ def get_promos():
 
 def no_promo():
     return (datetime.now().astimezone(tz=None).replace(tzinfo=None).replace(microsecond=0) + timedelta(days=7))
-
-def test():
-    curtime = datetime.now().astimezone(tz=None).replace(tzinfo=None).replace(microsecond=0) + timedelta(days=7)
-    print(curtime)
-    #scheduled_datetime = curtime.astimezone(tz=None).replace(microsecond=0)
-    #print(scheduled_datetime)
-    fut = [curtime]
-    cur = []
-    promos = {}
-    promos["current"] = cur
-    promos["future"] = fut
-    print(promos)
-    return promos
-
-# if __name__ == "__main__":
-#     test()
